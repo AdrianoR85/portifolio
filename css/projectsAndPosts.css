@@ -1,0 +1,93 @@
+.projectsAndPosts {
+    flex: 2;
+}
+
+.projects {
+    font-size: .875rem;
+}
+
+.show__projects {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.all-projects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+} 
+
+
+.projects__name {
+    text-align: left;
+    display: flex;
+    gap: 20px;
+    font-size: 1rem;
+}
+
+.projects__name::before {
+    content: url('../assets/folder.svg');
+}
+
+.projects__description {
+    padding: 1.125rem 0;
+    text-align: left;
+}
+
+.project__info {
+    display: flex;
+    gap: 20px;
+}
+
+/* .info__tech,
+.info__likes,
+.info__shared {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info__tech {
+    justify-content: flex-end;
+    flex: 2;
+}
+
+.info__likes::before {content: url('../assets/star.svg');}
+.info__shared::before {content: url('../assets/git-branch.svg');}
+.info__tech::before {content: '<>'; color: yellow;} */
+
+@media (max-width: 600px) {
+    .projectsAndPosts {
+        flex: 0;
+        overflow: hidden;
+        
+    }
+
+    .all-projects {
+        display: inline-flex;
+        transform: translateX(0); /*analisar*/
+        will-change: transform;
+        transition: transform 0.3s ease;
+        /* scrollbar-width: none; */
+        cursor: grab;
+        overflow: hidden;
+        gap: 10px;
+        flex-wrap: nowrap;
+    }
+
+    .grabbing {
+        cursor: grabbing;
+      }
+
+    .show__projects {
+        margin-top: 5%;
+    }
+    
+    .projects__card {
+        width: 90vw;
+        max-width: 100%;
+    }
+}

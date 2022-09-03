@@ -1,0 +1,79 @@
+.myBiography {
+    flex: 1;
+}
+.header__myphoto {
+    padding: 0rem 0 .500rem 0;
+}
+
+.header__myphoto > img {
+    width: 40%;
+    border-radius: 50%;
+    border: 2px solid var(--line-color);
+}
+
+.header__myName {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.header__myJob {
+    padding-bottom: 1rem;
+    font-size: 0.875rem;
+    line-height: 2rem;
+}
+
+/* CARDS DE LINKS */
+
+.links {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 1.75rem;
+    padding-left: 2rem;
+    font-size: .875rem;
+}
+
+.links > a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.links__icons {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    stroke: var(--text-color);
+}
+
+.links__icons--map::before  {content: url('../assets/map-pin.svg');}
+.links__icons--rockseat::before {content: url('../assets/briefcase.svg');}
+.links__icons--github::before {content: url('../assets/github.svg');}
+.links__icons--linkedin::before {content: url('../assets/linkedin.svg');}
+.links__icons--twitter::before {content: url('../assets/twitter.svg');}
+.links__icons--site::before {content: url('../assets/globe.svg');}
+.links__icons--email::before {content: url('../assets/mail.svg');}
+
+/* Technologies*/
+
+.tech {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.tech__name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 24px;
+    line-height: 0;
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: var(--tech-color);
+    border-radius: 30px;
+    color: var(--body-color);
+}
+
