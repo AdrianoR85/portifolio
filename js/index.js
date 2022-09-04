@@ -1,6 +1,5 @@
-const cards = document.querySelectorAll('.projects__card');
-const card = document.querySelector('.all-projects');
-
+const projects = document.querySelector('.all-projects'),
+  cards = Array.from(document.querySelectorAll('.projects__card'))
 
 let isDragging = false,
   startPos = 0,
@@ -10,73 +9,76 @@ let isDragging = false,
   currentIndex = 0
 
 cards.forEach((card, index) => {
-    card.addEventListener('dragstart', (e) => e.preventDefault())
-
-    // Touch events
-    card.addEventListener('touchstart', touchStart(index))
-    card.addEventListener('touchend', touchEnd)
-    card.addEventListener('touchmove', touchMove)
-
-
+  // disable default image drag
+  card.addEventListener('dragstart', (e) => e.preventDefault())
+  // touch events
+  card.addEventListener('touchend', touchEnd)
+  card.addEventListener('touchmove', touchMove)
+  // mouse events
+  card.addEventListener('mousedown', touchStart(index))
+  card.addEventListener('mouseup', touchEnd)
+  card.addEventListener('mousemove', touchMove)
+  card.addEventListener('mouseleave', touchEnd)
 })
 
-window.oncontextmenu = function(event) {
-    event.preventDefault()
-    event.stopPropagation()
-    return false
+// make responsive to viewport changes
+window.addEventListener('resize', setPositionByIndex)
+
+// prevent menu popup on long press
+window.oncontextmenu = function (event) {
+  event.preventDefault()
+  event.stopPropagation()
+  return false
+}
+
+function getPositionX(event) {
+  return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX
 }
 
 function touchStart(index) {
-    return function(event) {
-        currentIndex = index
-        startPosition = getPosition(event)
-        isDragging = true
-
-        animationID = requestAnimationFrame(animation)
-        card.classList.add('grabbing')
-    }
-}
-
-function touchEnd() {
-    isDragging = false
-    cancelAnimationFrame(animationID)
-
-    const moveBy = currentTranslate - prevTranslate
-
-    if(moveBy < -100 && currentIndex < cards.length - 1) {
-        currentIndex += 1
-    }
-
-    if(moveBy > 100 && currentIndex > 0) {
-        currentIndex += 1
-    }
-
-    setPositionByIndex()
-    card.classList.remove('grabbing')
+  return function (event) {
+    currentIndex = index
+    startPos = getPositionX(event)
+    isDragging = true
+    animationID = requestAnimationFrame(animation)
+    projects.classList.add('grabbing')
+  }
 }
 
 function touchMove(event) {
-    if(isDragging) {
-        const currentPosition = getPosition(event)
-        currentTranslate = prevTranslate + currentPosition - startPos
-    }
+  if (isDragging) {
+    const currentPosition = getPositionX(event)
+    currentTranslate = prevTranslate + currentPosition - startPos
+  }
 }
 
-function getPosition(event) {
-    return event.touches[0].clientX
+function touchEnd() {
+  cancelAnimationFrame(animationID)
+  isDragging = false
+  const movedBy = currentTranslate - prevTranslate
+
+  // if moved enough negative then snap to next slide if there is one
+  if (movedBy < -100 && currentIndex < cards.length - 1) currentIndex += 1
+
+  // if moved enough positive then snap to previous slide if there is one
+  if (movedBy > 100 && currentIndex > 0) currentIndex -= 1
+
+  setPositionByIndex()
+
+  projects.classList.remove('grabbing')
 }
- 
+
 function animation() {
-    card.style.transform = `translateX(${currentTranslate}px)`
-    if(isDragging) requestAnimationFrame(animation)
+  setSliderPosition()
+  if (isDragging) requestAnimationFrame(animation)
 }
 
 function setPositionByIndex() {
-    currentTranslate = currentIndex * -window.innerWidth
-    prevTranslate = currentTranslate
-    setCardPosition()
-  }
+  currentTranslate = currentIndex * -window.innerWidth
+  prevTranslate = currentTranslate
+  setSliderPosition()
+}
 
-function setCardPosition() {
-    card.style.transform = `translateX(${currentTranslate}px)`
-  }
+function setSliderPosition() {
+    projects.style.transform = `translateX(${currentTranslate}px)`
+}
